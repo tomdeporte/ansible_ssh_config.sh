@@ -22,8 +22,8 @@ for rg in ${RGs[0]} ; do
       read -r -a vmarray <<< "$vm"
       echo $vmarray
       name=$(echo ${vmarray[0]} | tr -d '"')
+      key=$(echo $name | tr '_' '-')
       host=$(echo ${vmarray[1]} | tr -d '"')
-      key=$(echo $host | tr '_' '-')
       echo $name && echo $host && echo $key
       #az keyvault secret show --name $key --vault-name kv-common-fc-test-001 --query "value"
       # Key vault name is dependant of environment 
