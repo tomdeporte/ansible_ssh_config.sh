@@ -19,7 +19,7 @@ for rg in ${RGs[0]} ; do
     VMs=$(az vm show -d --ids $(az vm list -g $rg --query "[].id" -o tsv) --query [name,privateIps] -o tsv) 
     for vm in ${VMs[0]} ; do
       IFS=$'\n'
-      read -r -a vmarray <<< "$vm""
+      read -r -a vmarray <<< "$vm"
       echo $vmarray
       name=$(echo ${vmarray[0]} | tr -d '"')
       host=$(echo ${vmarray[1]} | tr -d '"')
