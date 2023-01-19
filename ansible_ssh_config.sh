@@ -17,14 +17,14 @@ for rg in ${RGs[0]} ; do
   echo $rg
   if ! [ -z $(az vm list -g $rg --query "[].id" -o tsv) ] ; then
     VMs=$(az vm show -d --ids $(az vm list -g $rg --query "[].id" -o tsv) --query [name,privateIps] -o tsv) 
-    echo $VMs
     for vm in ${VMs[0]} ; do
       IFS=$'\n'
-      read -r -a vms <<< "$vm""
-      name=$(echo ${vm[0]} | tr -d '"')
-      host=$(echo ${vm[1]} | tr -d '"')
+      read -r -a vmarray <<< "$vm""
+      echo $vmarray
+      name=$(echo ${vmarray[0]} | tr -d '"')
+      host=$(echo ${vmarray[1]} | tr -d '"')
       key=$(echo $host | tr '_' '-')
-      echo $name $host $key
+      echo $name && echo $host && echo $key
       #az keyvault secret show --name $key --vault-name kv-common-fc-test-001 --query "value"
       # Key vault name is dependant of environment 
       #ssh-copy-id -i ~/.ssh/sshkey  -o "StrictHostKeyChecking no" gradesadmin@$host <<< $(az keyvault secret show --name $key --vault-name kv-common-fc-test-001 --query "value")
