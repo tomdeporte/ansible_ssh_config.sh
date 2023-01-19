@@ -19,10 +19,9 @@ for rg in ${RGs[0]} ; do
     IPs=$(az vm show -d --ids $(az vm list -g $rg --query "[].id" -o tsv) --query privateIps)
     for ip in $IPs ; do
       host=$(echo $ip | tr -d '"')
-      echo $host
-      ssh-copy-id -i ~/.ssh/sshkey user@$host
-      ssh -i ~/.ssh/sshkey user@$host
+      key=$(echo $host | tr '_' '-')
+      ssh-copy-id -i ~/.ssh/sshkey gradesadmin@$host <<< $(az keyvault secret show --name $key --vault-name kv-common-fc-test-001 --query "value")
+      ssh -i ~/.ssh/sshkey gradesadmin@$host
     done
   fi
 done
-
