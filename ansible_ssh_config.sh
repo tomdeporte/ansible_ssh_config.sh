@@ -20,7 +20,7 @@ for rg in ${RGs[0]} ; do
     for ip in $IPs ; do
       host=$(echo $ip | tr -d '"')
       key=$(echo $host | tr '_' '-')
-      ssh-copy-id -i ~/.ssh/sshkey gradesadmin@$host <<< $(az keyvault secret show --name $key --vault-name kv-common-fc-test-001 --query "value")
+      ssh-copy-id -i ~/.ssh/sshkey  -o "StrictHostKeyChecking no" gradesadmin@$host <<< $(az keyvault secret show --name $key --vault-name kv-common-fc-test-001 --query "value")
       ssh -i ~/.ssh/sshkey gradesadmin@$host
     done
   fi
