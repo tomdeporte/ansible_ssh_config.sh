@@ -20,7 +20,7 @@ for rg in ${RGs[0]} ; do
     echo $VMs
     for vm in ${VMs[0]} ; do
       IFS=$'\n'
-      read -a strarr <<< "$vm""
+      read -r -a vms <<< "$vm""
       name=$(echo ${vm[0]} | tr -d '"')
       host=$(echo ${vm[1]} | tr -d '"')
       key=$(echo $host | tr '_' '-')
