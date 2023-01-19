@@ -21,9 +21,11 @@ for rg in ${RGs[0]} ; do
       name=$(echo ${vm[0]} | tr -d '"')
       host=$(echo ${vm[1]} | tr -d '"')
       key=$(echo $host | tr '_' '-')
+      echo $name $host $key
+      az keyvault secret show --name $key --vault-name kv-common-fc-test-001 --query "value"
       # Key vault name is dependant of environment 
-      ssh-copy-id -i ~/.ssh/sshkey  -o "StrictHostKeyChecking no" gradesadmin@$host <<< $(az keyvault secret show --name $key --vault-name kv-common-fc-test-001 --query "value")
-      ssh -i ~/.ssh/sshkey gradesadmin@$host
+      #ssh-copy-id -i ~/.ssh/sshkey  -o "StrictHostKeyChecking no" gradesadmin@$host <<< $(az keyvault secret show --name $key --vault-name kv-common-fc-test-001 --query "value")
+      #ssh -i ~/.ssh/sshkey gradesadmin@$host
     done
   fi
 done
