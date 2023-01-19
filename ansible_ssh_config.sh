@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ssh-keygen -b 2048 -t rsa -f /sshkey -q -N ""
+ssh-keygen -t rsa -N '' -f ~/.ssh/sshkey <<< y
 
 RGs=$(az group list --query [].name -o tsv)
 IFS=$'\n'
