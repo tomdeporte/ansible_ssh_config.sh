@@ -16,14 +16,11 @@ read -a strarr <<< "$RGs"
 for rg in ${RGs[0]} ; do
   echo $rg
   if ! [ -z $(az vm list -g $rg --query "[].id" -o tsv) ] ; then
-    VMs=$(az vm show -d --ids $(az vm list -g $rg --query "[].id" -o tsv) --query [name,privateIps] -o tsv) 
+    VMs=($(az vm show -d --ids $(az vm list -g $rg --query "[].id" -o tsv) --query [name,privateIps] -o tsv))
     for vm in ${VMs[0]} ; do
-      IFS=$'\n'
-      read -r -a vmarray <<< "$vm"
-      echo $vmarray
-      name=$(echo ${vmarray[0]} | tr -d '"')
+      name=$(echo ${vm[0]} | tr -d '"')
       key=$(echo $name | tr '_' '-')
-      host=$(echo ${vmarray[1]} | tr -d '"')
+      host=$(echo ${vm[1]} | tr -d '"')
       echo $name && echo $host && echo $key
       #az keyvault secret show --name $key --vault-name kv-common-fc-test-001 --query "value"
       # Key vault name is dependant of environment 
