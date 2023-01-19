@@ -18,7 +18,9 @@ for rg in ${RGs[0]} ; do
   if ! [ -z $(az vm list -g $rg --query "[].id" -o tsv) ] ; then
     VMs=$(az vm show -d --ids $(az vm list -g $rg --query "[].id" -o tsv) --query [name,privateIps] -o tsv) 
     echo $VMs
-    for vm in $VMs[0] ; do
+    for vm in ${VMs[0]} ; do
+      IFS=$'\n'
+      read -a strarr <<< "$vm""
       name=$(echo ${vm[0]} | tr -d '"')
       host=$(echo ${vm[1]} | tr -d '"')
       key=$(echo $host | tr '_' '-')
