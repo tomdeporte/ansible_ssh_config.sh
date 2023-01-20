@@ -8,6 +8,8 @@
 
 #az account set -s "${SUBSCRIPTION_ID}"
 
+ssh-keygen -t rsa -N '' -f ~/.ssh/sshkey <<< y
+
 VMs=$(az vm list --show-details --output tsv --query "[?contains(storageProfile.osDisk.osType,'Linux')].id")
 IFS=$'\n'
 read -a strarr <<< "$VMs"
