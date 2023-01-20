@@ -18,7 +18,6 @@ for id in $VMs ; do
   key=$(echo $name | sed "s/vm/key/g"  | tr '_' '-')
   host=$(az vm list --show-details --output tsv --query "[?id == '${id}'].privateIps")
   echo $name ; echo $key ; echo $host
-  az keyvault secret show --name $key --vault-name kv-common-fc-test-001 --query "value"
   # Key vault name is dependant of environment 
   ssh-copy-id -i ~/.ssh/sshkey  -o "StrictHostKeyChecking no" gradesadmin@$host <<< $(az keyvault secret show --name $key --vault-name kv-common-fc-test-001 --query "value")
   ssh -i ~/.ssh/sshkey gradesadmin@$host
