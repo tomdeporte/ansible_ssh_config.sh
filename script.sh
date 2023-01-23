@@ -1,9 +1,9 @@
 #!/bin/bash
 
 FOLDER=/root/ansible
-#if [ -d "$FOLDER" ]; then
-#    echo "Ansible is already installed"
-#else 
+if [ -d "$FOLDER" ]; then
+    echo "Ansible is already installed"
+else 
     sudo mkdir /root/ansible
     
     cd /home/gradesadmin
@@ -31,6 +31,6 @@ FOLDER=/root/ansible
     sudo echo "export ANSIBLE_CONFIG=/root/ansible/ansible.cfg" >> ~/.profile
 
     source ~/.profile
-#fi
+fi
 
 
