@@ -20,7 +20,7 @@ FOLDER=/root/ansible
     ansible-galaxy collection install azure.azcollection
 
     # Install Ansible modules for Azure
-     ip3 install -r ~/.ansible/collections/ansible_collections/azure/azcollection/requirements-azure.txt
+    pip3 install -r ~/.ansible/collections/ansible_collections/azure/azcollection/requirements-azure.txt
 
     echo -e "[defaults]\ninventory=/root/ansible/inventory\nremote_user=root\nhost_key_checking=False\nbecome=True\nbecome_user=root\nbecome_ask_pass=False\n" >> /root/ansible/ansible.cfg
 
