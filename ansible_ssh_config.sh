@@ -1,5 +1,7 @@
 #!/bin/bash
 
+curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
 #az login \
 #    --service-principal \
 #    --username "${SERVICE_PRINCIPAL_ID}" \
@@ -19,6 +21,6 @@ for id in $VMs ; do
   host=$(az vm list --show-details --output tsv --query "[?id == '${id}'].privateIps")
   echo $name ; echo $key ; echo $host
   # Key vault name is dependant of environment 
-  ssh-copy-id -i ~/.ssh/sshkey  -o "StrictHostKeyChecking no" gradesadmin@$host <<< $(az keyvault secret show --name $key --vault-name kv-common-fc-test-001 --query "value")
-  ssh -i ~/.ssh/sshkey gradesadmin@$host
+  ssh-copy-id -i ~/.ssh/sshkey  -o "StrictHostKeyChecking no" -p 9100 gradesadmin@$host <<< $(az keyvault secret show --name $key --vault-name kv-common-fc-test-001 --query "value")
+  ssh -i ~/.ssh/sshkey -p 9100 gradesadmin@$host
 done
