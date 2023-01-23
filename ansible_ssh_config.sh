@@ -10,7 +10,7 @@ curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
 #az account set -s "${SUBSCRIPTION_ID}"
 
-ssh-keygen -t rsa -N '' -f ~/.ssh/sshkey <<< y
+ssh-keygen -t rsa -N '' <<< y
 
 VMs=$(az vm list --show-details --output tsv --query "[?contains(storageProfile.osDisk.osType,'Linux')].id")
 IFS=$'\n'
@@ -19,8 +19,7 @@ for id in $VMs ; do
   name=$(az vm list --show-details --output tsv --query "[?id == '${id}'].name")
   key=$(echo $name | sed "s/vm/key/g"  | tr '_' '-')
   host=$(az vm list --show-details --output tsv --query "[?id == '${id}'].privateIps")
-  echo $name ; echo $key ; echo $host
   # Key vault name is dependant of environment 
-  ssh-copy-id -i ~/.ssh/sshkey  -o "StrictHostKeyChecking no" -p 9100 gradesadmin@$host <<< $(az keyvault secret show --name $key --vault-name kv-common-fc-test-001 --query "value")
-  ssh -i ~/.ssh/sshkey -p 9100 gradesadmin@$host
+  ssh-copy-id -o "StrictHostKeyChecking no" -p 9100 gradesadmin@$host <<< $(az keyvault secret show --name $key --vault-name kv-common-fc-test-001 --query "value")
+  ssh -p 9100 gradesadmin@$host
 done
